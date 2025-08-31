@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Analysis Result</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .card {
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      background: #f4f6f9;
+      border-radius: 10px;
+      padding: 15px;
+    }
+  </style>
+</head>
+<body class="container py-5">
+
+  <h1 class="mb-4 text-primary">📄 Analysis Result</h1>
+
+  <!-- File & Extracted Text -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title text-secondary">Extracted Text from <span class="fw-bold">{{ filename }}</span></h5>
+      <pre id="extractedText">{{ text }}</pre>
+      <div class="d-flex gap-3 mt-3">
+        <button class="btn btn-outline-primary" onclick="copyText()">📋 Copy Text</button>
+        <a id="downloadLink" class="btn btn-success" download="{{ filename }}.txt">⬇️ Download</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Engagement Suggestions -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h4 class="card-title text-info">💡 Engagement Suggestions</h4>
+      <p>{{ suggestion }}</p>
+    </div>
+  </div>
+
+  <!-- Sentiment Analysis -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h4 class="card-title text-warning">📊 Sentiment Analysis</h4>
+      <p><strong>Polarity:</strong> {{ polarity }}</p>
+      <p><strong>Subjectivity:</strong> {{ subjectivity }}</p>
+    </div>
+  </div>
+
+  <script>
+    // Copy text to clipboard
+    function copyText() {
+      const text = document.getElementById('extractedText').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Text copied to clipboard!');
+      }).catch(err => {
+        alert('Failed to copy text: ' + err);
+      });
+    }
+
+    // Set download link dynamically
+    const downloadLink = document.getElementById('downloadLink');
+    const textContent = document.getElementById('extractedText').innerText;
+    const blob = new Blob([textContent], { type: 'text/plain' });
+    downloadLink.href = URL.createObjectURL(blob);
+  </script>
+
+</body>
+</html>
